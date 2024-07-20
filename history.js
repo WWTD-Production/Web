@@ -39,9 +39,16 @@ function buildSections(container, categories) {
 function loadMessages(threadId) {
     currentThreadID = threadId;  // Store globally
     const messagesRef = database.collection('users').doc(currentUserID).collection('messageThreads').doc(threadId).collection('messages');
-    const messagesContainer = document.getElementById('messages-container');
+    const messagesContainer = document.getElementById('messages-content-container');
     messagesContainer.innerHTML = '';  // Clear previous messages before setting up the listener
-
+    messagesContainer.style.display = 'block'
+    
+    const existingEmptyStateContainer = document.getElementById('empty-state-container');
+    
+    if (existingEmptyStateContainer) {
+        existingEmptyStateContainer.remove(); // Remove the previous empty state container if it exists
+    }
+    
     // Setting up a real-time listener
     messagesRef.orderBy('timestamp').onSnapshot(snapshot => {
         messagesContainer.innerHTML = '';  // Clear messages each time there's a change in the collection

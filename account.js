@@ -28,7 +28,30 @@ document.addEventListener("DOMContentLoaded", function() {
     const currentPlan = document.getElementById('current-plan');
     const expirationDate = document.getElementById('expiration-date');
 
+    const contactUs = document.getElementById('contact-us');
+    contactUs.addEventListener('click', () => {
+        window.location.href = '/contact-us';
+
+    })
     logoutButton.addEventListener('click', logout);
+
+    const shareData = {
+        title: "WWJD",
+        text: "Check out What Would Jesus Do!",
+        url: "https://wwtd.webflow.io/wwtd",
+      };
+      
+      const btn = document.getElementById("share-button");
+      
+      // Share must be triggered by "user activation"
+      btn.addEventListener("click", async () => {
+        try {
+          await navigator.share(shareData);
+          console.log("Shared")
+        } catch (err) {
+          console.log(`Error: ${err}`);
+        }
+      });
 
     subscriptionLink.addEventListener('click', () => {
         window.location.href = '/subscribe';

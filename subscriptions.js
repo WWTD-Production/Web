@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateSelection(selectedSubscriptionType);
 
         document.getElementById("purchase-button").addEventListener("click", function() {
-            fetch('https://wwtd-1e1d5c69f43d.herokuapp.com/create-checkout-session', {
+            fetch('https://wwtd-production-3707e3eba4af.herokuapp.com/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

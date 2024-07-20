@@ -123,7 +123,7 @@ function sendUserMessage() {
 }
 
 function startConversation(previewMessage) {
-    return fetch('https://wwtd-production-3707e3eba4af.herokuapp.com//start_conversation', {
+    return fetch('https://wwtd-production-3707e3eba4af.herokuapp.com/start_conversation', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -146,8 +146,9 @@ function startConversation(previewMessage) {
 
 function sendMessageToServer(input) {
     const messageField = document.getElementById('message-field');
+    messageField.value = '';
 
-    fetch('https://wwtd-production-3707e3eba4af.herokuapp.com//send_query', {
+    fetch('https://wwtd-production-3707e3eba4af.herokuapp.com/send_query', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -162,7 +163,6 @@ function sendMessageToServer(input) {
     .then(response => response.json())
     .then(data => {
         console.log(`Updated response in thread: ${currentThreadID} for data:\n${data.response}`);
-        messageField.value = '';
     })
     .catch(error => {
         console.error('Error:', error);
@@ -171,13 +171,23 @@ function sendMessageToServer(input) {
 
 
 function showEmptyState() {
-    const messagesContainer = document.getElementById('messages-container');
-    messagesContainer.innerHTML = '';  // Clear previous messages
+    const messagesContentContainer = document.getElementById('messages-content-container');
+    const existingEmptyStateContainer = document.getElementById('empty-state-container');
+    
+    if (existingEmptyStateContainer) {
+        existingEmptyStateContainer.remove(); // Remove the previous empty state container if it exists
+    }
+    
+    messagesContentContainer.style.display = 'none'
+    messagesContentContainer.innerHTML = '';  // Clear previous messages
     currentThreadID = null
+    
+    const messagesContainer = document.getElementById('messages-container');
     
     const emptyStateContainer = createDOMElement('div', 'empty-state-container', '' , messagesContainer)
     emptyStateContainer.style.backgroundImage = "url('https://firebasestorage.googleapis.com/v0/b/wwjd-c3cdc.appspot.com/o/Assets%2FWWJD%20Logo%20Circle.png?alt=media&token=5e81c983-62b5-4f74-9014-23d03ef9804d')";
-
+    emptyStateContainer.setAttribute('id', 'empty-state-container')
+    
     const presetPromptsContainer = createDOMElement('div', 'preset-prompts-container', '' , emptyStateContainer)
     const presets = [
         "How can I strengthen my faith?",
